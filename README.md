@@ -1,6 +1,6 @@
-# blog-front
+# blog-frontend
 
-> a privite blog system
+> a private blog system
 
 ## Build Setup
 

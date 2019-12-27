@@ -1,7 +1,7 @@
 {
-  "name": "blog-front",
+  "name": "blog-frontend",
   "version": "1.0.0",
-  "description": "a privite blog system",
+  "description": "a private blog system",
   "author": "mhiwy <1367398103@qq.com>",
   "private": true,
   "scripts": {
