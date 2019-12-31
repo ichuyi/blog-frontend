@@ -13,7 +13,7 @@
               src="http://5b0988e595225.cdn.sohucs.com/images/20171210/362dcd1c009842ff99b33f5d51bbfb80.jpeg"
             />
             <span class="username">{{ user.username }}</span>
-            <span
+            <span @click="clear"
               ><a href="javascript:void(0)">
                 退出
               </a></span
@@ -37,7 +37,7 @@
 <script>
 import TodoList from "../components/todo";
 import BlogList from "../components/blog-list";
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "home",
   components: {
@@ -50,6 +50,9 @@ export default {
   beforeRouteEnter(to, from, next) {
     document.title = to.meta;
     next();
+  },
+  methods: {
+    ...mapMutations(["clear"])
   },
   computed: {
     ...mapState(["user"])

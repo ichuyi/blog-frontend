@@ -22,6 +22,13 @@ export default {
         document.title = _self.$route.meta;
       }
     });
+  },
+  watch: {
+    "$store.state.user": function() {
+      if (this.$store.state.user === null) {
+        this.$router.push({ path: "/login" });
+      }
+    }
   }
 };
 </script>
