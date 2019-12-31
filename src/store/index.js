@@ -1,6 +1,8 @@
 import vuexAlong from "vuex-along";
-
-let state = {
+import Vue from "vue";
+import Vuex from "vuex";
+Vue.use(Vuex);
+const store = new Vuex.Store({
   state: {},
   mutations: {
     set(state, data) {
@@ -11,5 +13,5 @@ let state = {
     }
   },
   plugins: [vuexAlong()]
-};
-export default state;
+});
+export default store;

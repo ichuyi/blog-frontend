@@ -20,7 +20,7 @@
 import blogCard from "./blogList/blog-card";
 import blogAdd from "./blogList/blog-add";
 import { mapState } from "vuex";
-import http from "../http";
+import http from "../util/http";
 
 export default {
   name: "blog-list",
@@ -49,10 +49,16 @@ export default {
   mounted() {
     let _self = this;
     http
-      .fetchPost("/post/list", { user_id: _self.user.id })
+      .fetchPost("/post/list")
       .then(function(res) {
         if (res.data.code !== 0) {
-          _self.$alert(res.data.message, "获取博客失败");
+          _self.$message({
+            message: "获取博客失败",
+            type: "error",
+            showClose: true,
+            center: true,
+            offset: 200
+          });
         } else {
           _self.blogList = res.data.result;
         }

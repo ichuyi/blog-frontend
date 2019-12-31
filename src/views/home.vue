@@ -37,7 +37,7 @@
 <script>
 import TodoList from "../components/todo";
 import BlogList from "../components/blog-list";
-import http from "../http";
+import http from "../util/http";
 import { mapState, mapMutations } from "vuex";
 export default {
   name: "home",
@@ -53,17 +53,20 @@ export default {
     next();
   },
   methods: {
-    logout(){
-      let _self=this;
-      http.fetchPost("/user/out").then(function (res) {
-        if(res.data.code===0){
-          _self.clear()
-        }else{
-          _self.$alert(res.data.message,"注销失败")
-        }
-      }).catch(function (err) {
-        console.log(err)
-      })
+    logout() {
+      let _self = this;
+      http
+        .fetchPost("/user/out")
+        .then(function(res) {
+          if (res.data.code === 0) {
+            _self.clear();
+          } else {
+            _self.$alert(res.data.message, "注销失败");
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
     },
     ...mapMutations(["clear"])
   },

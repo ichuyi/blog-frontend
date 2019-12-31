@@ -19,7 +19,7 @@
 
 <script>
 import { mapState } from "vuex";
-import http from "../../http";
+import http from "../../util/http";
 export default {
   name: "addImage",
   computed: {
@@ -33,14 +33,16 @@ export default {
       let _self = this;
       // 文件对象
       form.append("files", fileObj);
-      form.append("userId", _self.user.id);
       http
         .fetchPost("/file/upload", form)
         .then(res => {
           if (res.data.code === 0) {
-            this.$message({
+            _self.$message({
+              message: "上传成功",
               type: "success",
-              message: "上传成功"
+              showClose: true,
+              center: true,
+              offset: 200
             });
             _self.$emit("insertImage", res.data.result);
           } else {

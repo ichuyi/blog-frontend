@@ -28,7 +28,7 @@
 import AddImage from "./album/addImage";
 import ImageCard from "./album/imageCard";
 import { mapState } from "vuex";
-import http from "../http";
+import http from "../util/http";
 
 export default {
   name: "album",
@@ -47,10 +47,16 @@ export default {
   mounted() {
     let _self = this;
     http
-      .fetchGet("/file/list", { user_id: _self.user.id })
+      .fetchGet("/file/list")
       .then(function(res) {
         if (res.data.code !== 0) {
-          _self.$message(res.data.message, "获取图片失败");
+          _self.$message({
+            message: "获取图片失败",
+            type: "error",
+            showClose: true,
+            center: true,
+            offset: 200
+          });
         } else {
           _self.images = res.data.result;
         }
@@ -61,11 +67,9 @@ export default {
   },
   methods: {
     insertImage(image) {
-      debugger;
       this.images.unshift(...image);
     },
     preview(id) {
-      debugger;
       this.previewId = id;
       this.show = true;
     },
@@ -75,10 +79,21 @@ export default {
         .fetchGet("/file/delete", { id: image.id })
         .then(function(res) {
           if (res.data.code !== 0) {
-            _self.$alert(res.data.message, "删除失败");
+            _self.$message({
+              message: "删除失败",
+              type: "error",
+              showClose: true,
+              center: true,
+              offset: 200
+            });
           } else {
-            _self.$alert("", "删除成功");
-            debugger;
+            _self.$message({
+              message: "删除成功",
+              type: "success",
+              showClose: true,
+              center: true,
+              offset: 200
+            });
             _self.images.splice(index, 1);
           }
         })

@@ -6,12 +6,11 @@ import router from "./router";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import Vuex from "vuex";
-import state from "./store";
+import store from "./store";
 Vue.config.productionTip = false;
 
 Vue.use(ElementUI);
 Vue.use(Vuex);
-const store = new Vuex.Store(state);
 /* eslint-disable no-new */
 new Vue({
   el: "#app",

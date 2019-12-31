@@ -27,10 +27,12 @@ export default {
     "$store.state.user": {
       handler() {
         if (this.$store.state.user === null) {
-          this.$router.push({path: "/login"});
+          this.$router.push({ path: "/login" }).catch(function(err) {
+            console.log(err);
+          });
         }
       },
-      immediate:true
+      immediate: true
     }
   }
 };

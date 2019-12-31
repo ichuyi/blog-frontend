@@ -28,7 +28,8 @@
 </template>
 
 <script>
-import http from "../http";
+import http from "../util/http";
+import encrypt from "../util/encrypt";
 export default {
   name: "signIn",
   data() {
@@ -40,10 +41,11 @@ export default {
   methods: {
     submit() {
       let _self = this;
+      let encryptPassword = encrypt.encryptPassword(_self.password);
       http
         .fetchPost("/user/in", {
           username: _self.username,
-          password: _self.password
+          password: encryptPassword
         })
         .then(function(res) {
           if (res.data.code !== 0) {

@@ -27,7 +27,7 @@
 
 <script>
 import { mapState } from "vuex";
-import http from "../http";
+import http from "../util/http";
 import todoItem from "./todoItem";
 
 export default {
@@ -51,15 +51,42 @@ export default {
   },
   methods: {
     toggle(index) {
-      this.todoList[index].finish = 1 - this.todoList[index].finish;
+      let _self = this;
+      http
+        .fetchPost("/todo/update", {
+          finish: 1 - _self.todoList[index].finish,
+          id: _self.todoList[index].id
+        })
+        .then(function(res) {
+          if (res.data.code === 0) {
+            _self.todoList[index].finish = 1 - _self.todoList[index].finish;
+          } else {
+            _self.$message({
+              message: "操作",
+              type: "error",
+              showClose: true,
+              center: true,
+              offset: 200
+            });
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
     },
     getList() {
       let _self = this;
       http
-        .fetchPost("/todo/list", { id: _self.user.id })
+        .fetchPost("/todo/list")
         .then(function(res) {
           if (res.data.code !== 0) {
-            _self.$alert(res.data.message, "获取待办失败");
+            _self.$message({
+              message: "获取待办失败",
+              type: "error",
+              showClose: true,
+              center: true,
+              offset: 200
+            });
           } else {
             _self.todoList = res.data.result;
           }
@@ -72,12 +99,17 @@ export default {
       let _self = this;
       http
         .fetchPost("/todo/add", {
-          user_id: _self.user.id,
           content: _self.inputValue
         })
         .then(function(res) {
           if (res.data.code !== 0) {
-            _self.$alert(res.data.message, "增加待办失败");
+            _self.$message({
+              message: "添加待办失败",
+              type: "error",
+              showClose: true,
+              center: true,
+              offset: 200
+            });
           } else {
             _self.todoList.push(res.data.result);
           }
@@ -93,24 +125,15 @@ export default {
         .fetchPost("/todo/delete", { id: row.id })
         .then(function(res) {
           if (res.data.code !== 0) {
-            _self.$alert(res.data.message, "删除失败");
+            _self.$message({
+              message: "删除失败",
+              type: "error",
+              showClose: true,
+              center: true,
+              offset: 200
+            });
           } else {
             _self.getList();
-          }
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
-    },
-    finish(row) {
-      let _self = this;
-      http
-        .fetchPost("/todo/finish", { id: row.id })
-        .then(function(res) {
-          if (res.data.code !== 0) {
-            _self.$alert(res.data.message, "操作失败");
-          } else {
-            row.finish = 1;
           }
         })
         .catch(function(err) {

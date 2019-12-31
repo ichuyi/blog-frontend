@@ -1,5 +1,5 @@
 import axios from "axios";
-import state from "./store";
+import store from "../store";
 axios.defaults.timeout = 5000; //响应时间
 axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8"; //配置请求头
 axios.defaults.baseURL = "/api"; //配置接口地址
@@ -29,7 +29,7 @@ axios.interceptors.response.use(
     //对响应数据做些事
     if (res.data.code === -99) {
         debugger
-      state.state.commit("clear");
+      store.commit("clear");
     }
     return Promise.resolve(res);
   },

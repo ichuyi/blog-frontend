@@ -4,6 +4,7 @@
       class="edit"
       v-model="content"
       @save="show = true"
+      @imgAdd="uploadImage"
       ref="editor"
     />
     <div class="save" v-show="show">
@@ -63,7 +64,7 @@
 </template>
 
 <script>
-import http from "../http";
+import http from "../util/http";
 import { mapState } from "vuex";
 import { mavonEditor } from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
@@ -86,25 +87,43 @@ export default {
   methods: {
     save() {
       let _self = this;
-      debugger;
       if (_self.content.trim() === "" || _self.title.trim() === "") {
-        _self.$alert("内容和标题不能为空", "提交失败");
+        _self.$message({
+          message: "标题和内容不能为空",
+          type: "error",
+          showClose: true,
+          center: true,
+          offset: 200
+        });
         return;
       }
       http
         .fetchPost("/post/add", {
           title: _self.title.trim(),
           content: _self.content,
-          user_id: _self.user.id,
           labels: _self.checkedLabel
         })
         .then(function(res) {
           if (res.data.code !== 0) {
-            _self.$alert(res.data.message, "保存失败");
+            _self.$message({
+              message: res.data.message,
+              type: "error",
+              showClose: true,
+              center: true,
+              offset: 200
+            });
           } else {
             _self.content = "";
             _self.title = "";
             _self.checkedLabel = [];
+            _self.show = false;
+            _self.$message({
+              message: "保存成功",
+              type: "success",
+              showClose: true,
+              center: true,
+              offset: 200
+            });
           }
         })
         .catch(function(err) {
@@ -123,12 +142,25 @@ export default {
         })
         .then(({ value }) => {
           http
-            .fetchPost("/label/add", { name: value, user_id: _self.user.id })
+            .fetchPost("/label/add", { name: value })
             .then(function(res) {
               if (res.data.code !== 0) {
-                _self.$alert(res.data.message, "保存失败");
+                _self.$message({
+                  message: res.data.message,
+                  type: "error",
+                  showClose: true,
+                  center: true,
+                  offset: 200
+                });
               } else {
                 _self.labels.push(res.data.result);
+                _self.$message({
+                  message: "添加成功",
+                  type: "success",
+                  showClose: true,
+                  center: true,
+                  offset: 200
+                });
               }
             })
             .catch(function(err) {
@@ -137,6 +169,33 @@ export default {
         })
         .catch(() => {});
       console.log(this.checkedLabel);
+    },
+    uploadImage(pos, file) {
+      // 第一步.将图片上传到服务器.
+      let form = new FormData();
+      let _self = this;
+      form.append("files", file);
+      http
+        .fetchPost("/file/upload", form)
+        .then(function(res) {
+          if (res.data.code === 0) {
+            _self.$refs.editor.$img2Url(
+              pos,
+              "/api/file/get?id=" + res.data.result[0].id
+            );
+          } else {
+            _self.$message({
+              message: "上传失败",
+              type: "error",
+              showClose: true,
+              center: true,
+              offset: 200
+            });
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -146,10 +205,16 @@ export default {
   mounted() {
     let _self = this;
     http
-      .fetchPost("/label/list", { user_id: _self.user.id })
+      .fetchPost("/label/list")
       .then(function(res) {
         if (res.data.code !== 0) {
-          _self.$alert(res.data.message, "获取标签失败");
+          _self.$message({
+            message: "获取标签失败",
+            type: "error",
+            showClose: true,
+            center: true,
+            offset: 200
+          });
         } else {
           _self.labels = res.data.result;
         }
