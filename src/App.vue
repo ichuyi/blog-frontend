@@ -24,10 +24,13 @@ export default {
     });
   },
   watch: {
-    "$store.state.user": function() {
-      if (this.$store.state.user === null) {
-        this.$router.push({ path: "/login" });
-      }
+    "$store.state.user": {
+      handler() {
+        if (this.$store.state.user === null) {
+          this.$router.push({path: "/login"});
+        }
+      },
+      immediate:true
     }
   }
 };

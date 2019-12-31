@@ -3,6 +3,7 @@ import state from "./store";
 axios.defaults.timeout = 5000; //响应时间
 axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8"; //配置请求头
 axios.defaults.baseURL = "/api"; //配置接口地址
+axios.defaults.withCredentials = true;
 
 //POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use(
@@ -27,6 +28,7 @@ axios.interceptors.response.use(
   res => {
     //对响应数据做些事
     if (res.data.code === -99) {
+        debugger
       state.state.commit("clear");
     }
     return Promise.resolve(res);

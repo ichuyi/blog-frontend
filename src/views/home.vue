@@ -13,7 +13,7 @@
               src="http://5b0988e595225.cdn.sohucs.com/images/20171210/362dcd1c009842ff99b33f5d51bbfb80.jpeg"
             />
             <span class="username">{{ user.username }}</span>
-            <span @click="clear"
+            <span @click="logout"
               ><a href="javascript:void(0)">
                 退出
               </a></span
@@ -37,6 +37,7 @@
 <script>
 import TodoList from "../components/todo";
 import BlogList from "../components/blog-list";
+import http from "../http";
 import { mapState, mapMutations } from "vuex";
 export default {
   name: "home",
@@ -52,6 +53,18 @@ export default {
     next();
   },
   methods: {
+    logout(){
+      let _self=this;
+      http.fetchPost("/user/out").then(function (res) {
+        if(res.data.code===0){
+          _self.clear()
+        }else{
+          _self.$alert(res.data.message,"注销失败")
+        }
+      }).catch(function (err) {
+        console.log(err)
+      })
+    },
     ...mapMutations(["clear"])
   },
   computed: {
