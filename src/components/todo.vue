@@ -1,26 +1,17 @@
 <template>
     <el-card id="Todo">
-        <div slot="header">todoList</div>
-        <el-form>
-            <el-form-item size="medium">
-                <el-input v-model="inputValue" size="medium" @change="save" placeholder="请输入待办" suffix-icon="el-icon-success"/>
-            </el-form-item>
-        </el-form>
-        <el-table :data="todoList">
-            <el-table-column prop="content" label="待办" show-overflow-tooltip/>
-            <el-table-column align="center" :sortable="true" sort-by="finish" label="状态">
-                <template slot-scope="scope">
-                    <i :class="scope.row.finish===1?'el-icon-success':'el-icon-warning'">
-                    </i>
-                </template>
-            </el-table-column>
-            <el-table-column align="left" label="操作">
-                <template slot-scope="scope">
-                        <el-button type="danger" @click="deleteOne(scope.row)" size="mini">删除</el-button>
-                        <el-button type="primary" @click="finish(scope.row)" v-if="!scope.row.finish" size="mini">完成</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
+        <div slot="header" class="title">todoList</div>
+        <el-row>
+            <el-col :span="12" :offset="6">
+                <el-form class="form">
+                    <el-form-item size="medium">
+                        <el-input v-model="inputValue" size="medium" @change="save" placeholder="请输入待办"
+                                  suffix-icon="el-icon-success"/>
+                    </el-form-item>
+                </el-form>
+                <todo-item v-for="(todo,index) in todoList" :key="index" :todo="todo" @toggle="toggle(index)"/>
+            </el-col>
+        </el-row>
     </el-card>
 
 </template>
@@ -28,15 +19,17 @@
 <script>
     import {mapState} from "vuex"
     import http from "../http"
+    import todoItem from "./todoItem";
 
     export default {
         name: 'Todo',
+        components: {todoItem},
         data() {
             return {
                 todoList: [],
                 inputValue: "",
             }
-            },
+        },
         computed: {
             ...mapState([
                 'user'
@@ -45,7 +38,14 @@
         mounted() {
             this.getList()
         },
+        beforeRouteEnter(to,from,next){
+            document.title="嵩豪酱--"+to.meta
+            next()
+        },
         methods: {
+            toggle(index) {
+                this.todoList[index].finish = 1 - this.todoList[index].finish
+            },
             getList() {
                 let _self = this;
                 http.fetchPost("/todo/list", {id: _self.user.id}).then(function (res) {
@@ -105,8 +105,14 @@
         min-height: 800px;
         margin: 20px;
     }
+    .title{
+        font-size: 20px;
+    }
     i {
         color: #409EFF;
         font-size: 20px;
+    }
+    .form{
+        margin-top: 30px;
     }
 </style>

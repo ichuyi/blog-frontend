@@ -3,33 +3,33 @@
         <mavonEditor class="edit" v-model="content" @save="show=true" ref="editor"/>
         <div class="save" v-show="show" >
             <el-row>
-                <el-col :span="4" :offset="10">
-                    <el-card class="form">
-                    <el-form size="medium">
-                        <el-form-item class="input">
-                            <el-input v-model="title" placeholder="请输入标题" size="mini" class="input"/>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-select v-model="checkedLabel" multiple placeholder="请选择标签" class="input">
-                                <el-option
-                                        v-for="(item,index) in labels"
-                                        :key="index"
-                                        :label="item.name"
-                                        :value="item.id"
-                                class="myli">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                        <div class="new-label" @click="openLabel">
-                            <a href="javascript:void(0)">新建标签</a>
-                        </div>
-                        <el-form-item>
-                            <el-button class="button" @click="save" size="mini" type="primary">提交</el-button>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button class="button" @click="show=false" size="mini" type="info">取消</el-button>
-                        </el-form-item>
-                    </el-form>
+                <el-col :span="12" :offset="6">
+                    <el-card class="form-card">
+                        <i class="el-icon-close" @click="show=false"/>
+                        <el-row>
+                            <el-col :span="8" :offset="8">
+                                <el-form size="medium" class="form">
+                                    <el-form-item class="input">
+                                        <el-input v-model="title" placeholder="请输入标题" size="small" class="input"/>
+                                    </el-form-item>
+
+                                    <el-form-item>
+                                        <el-select v-model="checkedLabel" multiple placeholder="请选择标签" class="input" size="mini">
+                                            <el-option
+                                                    v-for="(item,index) in labels"
+                                                    :key="index"
+                                                    :label="item.name"
+                                                    :value="item.id">
+                                            </el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <a href="javascript:void(0)"><span @click="openLabel">新建标签</span></a>
+                                    <el-form-item>
+                                        <el-button class="button" @click="save" size="mini" type="primary">提交</el-button>
+                                    </el-form-item>
+                                </el-form>
+                            </el-col>
+                        </el-row>
                     </el-card>
                 </el-col>
             </el-row>
@@ -44,6 +44,7 @@
     import {mapState} from "vuex";
     import { mavonEditor } from 'mavon-editor'
     import 'mavon-editor/dist/css/index.css'
+
     export default {
         name: "blog-edit",
         components: {mavonEditor},
@@ -53,7 +54,7 @@
                 checkedLabel: [],
                 title: "",
                 content: "",
-                show:false
+                show:false,
             }
         },
         computed: {
@@ -109,6 +110,10 @@
                 console.log(this.checkedLabel)
             },
         },
+        beforeRouteEnter(to,from,next){
+            document.title="嵩豪酱--"+to.meta
+            next()
+        },
         mounted() {
             let _self = this
             http.fetchPost("/label/list", {user_id: _self.user.id}).then(function (res) {
@@ -138,11 +143,21 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0,0,0,0.8);
+        /*background-color: rgba(0,0,0,0.8);*/
         z-index: 1600;
     }
+    .form-card{
+        margin-top: 100px;
+        text-align: right;
+        height: 600px;
+        /*background-color: transparent;*/
+    }
+    .form-card i{
+        font-size: 30px;
+        cursor: pointer;
+    }
     .form{
-        margin-top: 200px;
+        margin-top: 100px;
     }
     .button{
         width: 100%;
@@ -153,8 +168,10 @@
     a{
         color: #409EFF;
         text-decoration: none;
+        font-size: 10px;
     }
     .input{
         width: 100%;
     }
+
 </style>

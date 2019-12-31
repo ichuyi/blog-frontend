@@ -36,6 +36,10 @@
                 this.$router.push({path:'/editBlog'})
             },
         },
+        beforeRouteEnter(to,from,next){
+          document.title="嵩豪酱--"+to.meta
+          next()
+        },
         mounted() {
             let _self = this
             http.fetchPost("/post/list", {user_id: _self.user.id}).then(function (res) {

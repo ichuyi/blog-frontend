@@ -16,7 +16,9 @@
                     <el-menu-item index="/album">我的相册</el-menu-item>
                 </el-menu>
                 <keep-alive>
-                    <router-view></router-view>
+                    <transition name="el-zoom-in-center">
+                        <router-view/>
+                    </transition>
                 </keep-alive>
             </el-col>
         </el-row>
@@ -37,6 +39,10 @@
         data(){
             return{
             }
+        },
+        beforeRouteEnter(to,from,next){
+            document.title=to.meta
+            next()
         },
         computed:{
             ...mapState([

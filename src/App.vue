@@ -1,12 +1,32 @@
 <template>
-    <div id="app">
-        <router-view/>
+    <div>
+        <div id="app">
+            <router-view/>
+        </div>
+        <vue-canvas-nest :config="{color:'255,0,0', count: 99,opacity:1}" :el="'#app'"/>
     </div>
 </template>
 
 <script>
+    import vueCanvasNest from 'vue-canvas-nest'
+    const config = {
+        color: '255,0,0',
+        count: 88,
+    };
     export default {
-        name: 'App'
+        name: 'App',
+        components: { vueCanvasNest },
+        mounted() {
+            let _self=this
+            document.addEventListener('visibilitychange',function(){ //浏览器切换事件
+                if(document.visibilityState==='hidden') { //状态判断
+                    //normal_title=document.title;
+                    document.title = '主人去哪了～～～';
+                }else{
+                    document.title=_self.$route.meta
+                }
+            });
+        }
     }
 </script>
 

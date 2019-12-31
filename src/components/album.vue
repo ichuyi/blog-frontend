@@ -29,6 +29,10 @@
                 previewId:0
             }
         },
+        beforeRouteEnter(to,from,next){
+            document.title="嵩豪酱--"+to.meta
+            next()
+        },
         mounted() {
             let _self=this;
             http.fetchGet("/file/list",{user_id:_self.user.id}).then(function (res) {

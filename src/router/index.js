@@ -15,27 +15,32 @@ export default new Router({
             path: '/',
             name: 'home',
             component: Home,
+            meta:"首页",
             redirect:'/blog',
             children:[
                 {
                     path:'/blog',
                     name:'blog',
-                    component:Blog
+                    component:Blog,
+                    meta:"我的博客"
                 },
                 {
                     path:'/todo',
                     name:'todo',
-                    component: Todo
+                    component: Todo,
+                    meta:"我的待办"
                 },
                 {
                     path:'/editBlog',
                     name:'editBlog',
-                    component:BlogEdit
+                    component:BlogEdit,
+                    meta:"新建/编辑"
                 },
                 {
                     path:'/album',
                     name:'album',
-                    component:Album
+                    component:Album,
+                    meta:"我的相册"
                 }
             ]
         },
