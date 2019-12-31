@@ -1,18 +1,12 @@
 <template>
-    <div>
-        <div id="app">
-            <router-view/>
-        </div>
-        <vue-canvas-nest :config="{color:'255,0,0', count: 99,opacity:1}" :el="'#app'"/>
+    <div id="app">
+        <vue-canvas-nest :config="{color:'255,0,0', count: 99,opacity:1}"/>
+        <router-view/>
     </div>
 </template>
 
 <script>
     import vueCanvasNest from 'vue-canvas-nest'
-    const config = {
-        color: '255,0,0',
-        count: 88,
-    };
     export default {
         name: 'App',
         components: { vueCanvasNest },

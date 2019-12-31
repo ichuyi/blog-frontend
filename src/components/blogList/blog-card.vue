@@ -1,6 +1,6 @@
 <template>
         <el-card id="blog-card" :body-style="{padding:'0px'}" class="blog-card">
-            <div class="content" v-html="blog.content">
+            <div class="content" v-html="content">
             </div>
             <div class="header">
                 <span class="title">{{blog.title}}</span>
@@ -16,6 +16,8 @@
 </template>
 
 <script>
+    import showdown from "showdown"
+    const converter = new showdown.Converter()
     export default {
         name: "blog-card",
         props: {
@@ -24,8 +26,9 @@
                 required: true
             }
         },
-        data() {
-            return {
+        computed:{
+            content(){
+                return converter.makeHtml(this.blog.content)
             }
         },
         methods: {
