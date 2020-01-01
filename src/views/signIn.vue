@@ -30,6 +30,7 @@
 <script>
 import http from "../util/http";
 import encrypt from "../util/encrypt";
+import { mapMutations } from "vuex";
 export default {
   name: "signIn",
   data() {
@@ -51,17 +52,19 @@ export default {
           if (res.data.code !== 0) {
             _self.$alert(res.data.message, "登陆失败");
           } else {
-            _self.$store.commit("set", {
+            _self.setUser({
               username: res.data.result.username,
               id: res.data.result.id
             });
+            _self.initMeta(res.data.result.username);
             _self.$router.push({ path: "/" });
           }
         })
         .catch(function(err) {
           console.log(err);
         });
-    }
+    },
+    ...mapMutations(["setUser", "initMeta"])
   }
 };
 </script>

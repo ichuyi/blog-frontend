@@ -1,6 +1,6 @@
 <template>
   <el-card id="blog-card" :body-style="{ padding: '0px' }" class="blog-card">
-    <div class="content" v-html="content"></div>
+    <div class="content" v-html="content" @click="jumpToDetail"></div>
     <div class="header">
       <span class="title">{{ blog.title }}</span>
       <div class="info">
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
 import showdown from "showdown";
 const converter = new showdown.Converter();
 export default {
@@ -32,13 +33,24 @@ export default {
   computed: {
     content() {
       return converter.makeHtml(this.blog.content);
-    }
+    },
+    ...mapState(["user"])
   },
   methods: {
     tagStyle() {
       let types = ["primary", "success", "info", "warning", "danger"];
       return types[Math.floor(Math.random() * types.length)];
-    }
+    },
+    jumpToDetail() {
+      let _self = this;
+      _self.setBlog(_self.blog);
+      _self.setMeta({
+        name: "/blogDetail",
+        value: _self.user.username + "--" + _self.blog.title
+      });
+      window.open("/blogDetail", "_blank");
+    },
+    ...mapMutations(["setBlog", "setMeta"])
   }
 };
 </script>

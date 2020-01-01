@@ -48,10 +48,6 @@ export default {
   data() {
     return {};
   },
-  beforeRouteEnter(to, from, next) {
-    document.title = to.meta;
-    next();
-  },
   methods: {
     logout() {
       let _self = this;
@@ -59,7 +55,7 @@ export default {
         .fetchPost("/user/out")
         .then(function(res) {
           if (res.data.code === 0) {
-            _self.clear();
+            _self.clearAll();
           } else {
             _self.$alert(res.data.message, "注销失败");
           }
@@ -68,7 +64,7 @@ export default {
           console.log(err);
         });
     },
-    ...mapMutations(["clear"])
+    ...mapMutations(["clearAll"])
   },
   computed: {
     ...mapState(["user"])

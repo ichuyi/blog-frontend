@@ -19,7 +19,7 @@
 <script>
 import blogCard from "./blogList/blog-card";
 import blogAdd from "./blogList/blog-add";
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import http from "../util/http";
 
 export default {
@@ -35,19 +35,20 @@ export default {
     };
   },
   computed: {
-    ...mapState(["user"])
+    ...mapState(["user", "meta"])
   },
   methods: {
     jumpToEdit() {
       this.$router.push({ path: "/editBlog" });
-    }
+    },
+    ...mapMutations(["setBlog", "setMeta"])
   },
-  beforeRouteEnter(to, from, next) {
-    document.title = "嵩豪酱--" + to.meta;
-    next();
+  activated() {
+    document.title = this.meta[this.$route.path];
   },
   mounted() {
     let _self = this;
+    document.title = this.meta[this.$route.path];
     http
       .fetchPost("/post/list")
       .then(function(res) {
@@ -61,6 +62,11 @@ export default {
           });
         } else {
           _self.blogList = res.data.result;
+          _self.setBlog(res.data.result[0]);
+          _self.setMeta({
+            name: "/blogDetail",
+            value: _self.user.username + "--" + res.data.result[0].title
+          });
         }
       })
       .catch(function(err) {

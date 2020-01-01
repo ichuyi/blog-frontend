@@ -40,14 +40,14 @@ export default {
     };
   },
   computed: {
-    ...mapState(["user"])
+    ...mapState(["user", "meta"])
   },
   mounted() {
+    document.title = this.meta[this.$route.path];
     this.getList();
   },
-  beforeRouteEnter(to, from, next) {
-    document.title = "嵩豪酱--" + to.meta;
-    next();
+  activated() {
+    document.title = this.meta[this.$route.path];
   },
   methods: {
     toggle(index) {

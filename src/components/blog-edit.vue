@@ -82,7 +82,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["user"])
+    ...mapState(["user", "meta"])
   },
   methods: {
     save() {
@@ -198,12 +198,12 @@ export default {
         });
     }
   },
-  beforeRouteEnter(to, from, next) {
-    document.title = "嵩豪酱--" + to.meta;
-    next();
+  activated() {
+    document.title = this.meta[this.$route.path];
   },
   mounted() {
     let _self = this;
+    document.title = this.meta[this.$route.path];
     http
       .fetchPost("/label/list")
       .then(function(res) {

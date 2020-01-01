@@ -6,6 +6,7 @@ import Blog from "../components/blog-list";
 import Todo from "../components/todo";
 import BlogEdit from "../components/blog-edit";
 import Album from "../components/album";
+import BlogDetail from "../views/blogDetail";
 Vue.use(Router);
 
 export default new Router({
@@ -22,32 +23,39 @@ export default new Router({
           path: "/blog",
           name: "blog",
           component: Blog,
-          meta: "我的博客"
+          meta: "嵩豪酱--我的博客"
         },
         {
           path: "/todo",
           name: "todo",
           component: Todo,
-          meta: "我的待办"
+          meta: "嵩豪酱--我的待办"
         },
         {
           path: "/editBlog",
           name: "editBlog",
           component: BlogEdit,
-          meta: "新建/编辑"
+          meta: "嵩豪酱--新建/编辑"
         },
         {
           path: "/album",
           name: "album",
           component: Album,
-          meta: "我的相册"
+          meta: "嵩豪酱--我的相册"
         }
       ]
     },
     {
       path: "/login",
       name: "SignIn",
-      component: SignIn
+      component: SignIn,
+      meta: "嵩豪酱--欢迎登陆"
+    },
+    {
+      path: "/blogDetail",
+      name: "BlogDetail",
+      component: BlogDetail,
+      meta: "嵩豪酱--"
     }
   ]
 });

@@ -40,12 +40,12 @@ export default {
       previewId: 0
     };
   },
-  beforeRouteEnter(to, from, next) {
-    document.title = "嵩豪酱--" + to.meta;
-    next();
+  activated() {
+    document.title = this.meta[this.$route.path];
   },
   mounted() {
     let _self = this;
+    document.title = this.meta[this.$route.path];
     http
       .fetchGet("/file/list")
       .then(function(res) {
@@ -103,7 +103,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["user"])
+    ...mapState(["user", "meta"])
   }
 };
 </script>
