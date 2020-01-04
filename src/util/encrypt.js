@@ -11,7 +11,6 @@ const publicKey =
   "-----END PUBLIC KEY-----";
 function encryptPassword(password) {
   let md5str = md5(password);
-  console.log(md5str);
   let now = fechaObj.format(new Date(), "YYYYMMDDHHmmss");
   let sign = new JSEncrypt();
   sign.setPrivateKey(publicKey);

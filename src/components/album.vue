@@ -41,11 +41,11 @@ export default {
     };
   },
   activated() {
-    document.title = this.meta[this.$route.path];
+    document.title = this.meta[this.$route.name];
   },
   mounted() {
     let _self = this;
-    document.title = this.meta[this.$route.path];
+    document.title = this.meta[this.$route.name];
     http
       .fetchGet("/file/list")
       .then(function(res) {

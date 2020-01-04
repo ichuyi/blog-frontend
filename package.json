@@ -20,6 +20,7 @@
     "mavon-editor": "^2.7.7",
     "showdown": "^1.9.1",
     "tiptap-extensions": "^1.28.6",
+    "view-design": "^4.0.2",
     "vue": "^2.5.2",
     "vue-canvas-nest": "^2.0.0",
     "vue-router": "^3.0.1",

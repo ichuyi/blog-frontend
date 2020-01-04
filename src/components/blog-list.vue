@@ -41,14 +41,13 @@ export default {
     jumpToEdit() {
       this.$router.push({ path: "/editBlog" });
     },
-    ...mapMutations(["setBlog", "setMeta"])
   },
   activated() {
-    document.title = this.meta[this.$route.path];
+    document.title = this.meta[this.$route.name];
   },
   mounted() {
     let _self = this;
-    document.title = this.meta[this.$route.path];
+    document.title = this.meta[this.$route.name];
     http
       .fetchPost("/post/list")
       .then(function(res) {
@@ -62,11 +61,6 @@ export default {
           });
         } else {
           _self.blogList = res.data.result;
-          _self.setBlog(res.data.result[0]);
-          _self.setMeta({
-            name: "/blogDetail",
-            value: _self.user.username + "--" + res.data.result[0].title
-          });
         }
       })
       .catch(function(err) {

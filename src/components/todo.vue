@@ -43,11 +43,11 @@ export default {
     ...mapState(["user", "meta"])
   },
   mounted() {
-    document.title = this.meta[this.$route.path];
+    document.title = this.meta[this.$route.name];
     this.getList();
   },
   activated() {
-    document.title = this.meta[this.$route.path];
+    document.title = this.meta[this.$route.name];
   },
   methods: {
     toggle(index) {

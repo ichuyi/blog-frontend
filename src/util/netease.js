@@ -1,7 +1,6 @@
 import axios from "axios";
-import store from "../store";
-const blog = axios.create({
-  baseURL: "/api",
+const netease = axios.create({
+  baseURL: "/netease",
   timeout: 10000,
   headers: {
     post: {
@@ -12,14 +11,11 @@ const blog = axios.create({
 });
 
 //POST传参序列化(添加请求拦截器)
-blog.interceptors.request.use(
+netease.interceptors.request.use(
   config => {
     //在发送请求之前做某件事
-    if (config.method === "post" && config.url.indexOf("file") === -1) {
+    if (config.method === "post") {
       config.data = JSON.stringify(config.data);
-    } else if (config.method === "post" && config.url.indexOf("file") !== -1) {
-      config.headers.post["Content-Type"] =
-        'content-type": "multipart/form-data';
     }
     return config;
   },
@@ -30,12 +26,9 @@ blog.interceptors.request.use(
 );
 
 //返回状态判断(添加响应拦截器)
-blog.interceptors.response.use(
+netease.interceptors.response.use(
   res => {
     //对响应数据做些事
-    if (res.data.code === -99) {
-      store.commit("clearAll");
-    }
     return Promise.resolve(res);
   },
   error => {
@@ -45,9 +38,9 @@ blog.interceptors.response.use(
 );
 
 //返回一个Promise(发送post请求)
-export function fetchPost(url, params) {
+export function neteasePost(url, params) {
   return new Promise((resolve, reject) => {
-    blog
+    netease
       .post(url, params)
       .then(
         response => {
@@ -63,9 +56,9 @@ export function fetchPost(url, params) {
   });
 }
 ////返回一个Promise(发送get请求)
-export function fetchGet(url, param) {
+export function neteaseGet(url, param) {
   return new Promise((resolve, reject) => {
-    blog
+    netease
       .get(url, { params: param })
       .then(
         response => {
@@ -81,6 +74,6 @@ export function fetchGet(url, param) {
   });
 }
 export default {
-  fetchPost,
-  fetchGet
+  neteasePost,
+  neteaseGet
 };

@@ -20,7 +20,7 @@
               </el-col>
             </el-row>
           </div>
-          <div v-html="getContentHtml" class="content" />
+          <div v-html="contentHtml" class="content" />
         </el-card>
       </el-col>
     </el-row>
@@ -28,11 +28,19 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapState } from "vuex";
 import showdown from "showdown";
+import http from "../util/http";
 const converter = new showdown.Converter();
 export default {
   name: "blogDetail",
+  data(){
+    return{
+      blog:{
+        title:""
+      }
+    }
+  },
   methods: {
     getType(index) {
       let a = ["success", "primary", "error", "warning", "info"];
@@ -40,14 +48,33 @@ export default {
     }
   },
   activated() {
-    document.title = this.meta[this.$route.path];
+    document.title = this.meta[this.$route.name];
   },
   mounted() {
-    document.title = this.meta[this.$route.path];
+    let _self=this;
+    document.title = _self.meta[_self.$route.name];
+    let id=_self.$route.query.id;
+    http.fetchGet("/post/get",{id:id}).then(function (result) {
+      if(result.data.code!==0){
+        _self.$message({
+          message:result.data.message,
+          type:"error",
+          showClose: true,
+          center: true,
+          offset: 200
+        })
+      }else{
+        _self.blog=result.data.result;
+      }
+    }).catch(function (err) {
+      console.log(err)
+    })
   },
   computed: {
-    ...mapGetters(["getContentHtml"]),
-    ...mapState(["blog", "meta"])
+    ...mapState(["meta"]),
+    contentHtml(){
+      return converter.makeHtml(this.blog.content)
+    }
   }
 };
 </script>

@@ -19,16 +19,17 @@
               </a></span
             >
           </div>
-          <el-menu-item index="/blog">博客列表</el-menu-item>
-          <el-menu-item index="/todo">待办列表</el-menu-item>
-          <el-menu-item index="/editBlog">新建/编辑</el-menu-item>
-          <el-menu-item index="/album">我的相册</el-menu-item>
+          <el-menu-item index="/home/blog">博客列表</el-menu-item>
+          <el-menu-item index="/home/todo">待办列表</el-menu-item>
+          <el-menu-item index="/home/editBlog">新建/编辑</el-menu-item>
+          <el-menu-item index="/home/album">我的相册</el-menu-item>
+          <el-menu-item index="/home/music">云音乐</el-menu-item>
         </el-menu>
-        <keep-alive>
           <transition name="el-zoom-in-center">
-            <router-view />
+            <keep-alive>
+              <router-view/>
+            </keep-alive>
           </transition>
-        </keep-alive>
       </el-col>
     </el-row>
   </div>

@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <vue-canvas-nest :config="{ color: '255,0,0', count: 99, opacity: 1 }" />
-    <router-view />
+    <keep-alive>
+      <router-view />
+    </keep-alive>
   </div>
 </template>
 
@@ -18,17 +20,17 @@ export default {
       if (document.visibilityState === "hidden") {
         document.title = "主人去哪了～～～";
       } else {
-        document.title = _self.meta[_self.$route.path];
+        document.title = _self.meta[_self.$route.name];
       }
     });
   },
   computed: {
-    ...mapState(["meta"])
+    ...mapState(["meta","user"])
   },
   watch: {
-    "$store.state.user": {
+    user: {
       handler() {
-        if (this.$store.state.user === null) {
+        if (this.user === null) {
           this.$router.push({ path: "/login" }).catch(function(err) {
             console.log(err);
           });

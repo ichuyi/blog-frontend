@@ -43,12 +43,11 @@ export default {
     },
     jumpToDetail() {
       let _self = this;
-      _self.setBlog(_self.blog);
       _self.setMeta({
-        name: "/blogDetail",
+        name: "blogDetail",
         value: _self.user.username + "--" + _self.blog.title
       });
-      window.open("/blogDetail", "_blank");
+      window.open("/blogDetail?id="+_self.blog.id, "_blank");
     },
     ...mapMutations(["setBlog", "setMeta"])
   }

@@ -2,7 +2,7 @@
   <div id="signIn">
     <el-row>
       <el-col :span="4" :offset="10">
-        <el-card shadow="hover">
+        <el-card shadow="hover" class="card">
           <el-form size="small">
             <el-form-item class="item">
               <el-input v-model="username" placeholder="请输入账号" />
@@ -30,7 +30,7 @@
 <script>
 import http from "../util/http";
 import encrypt from "../util/encrypt";
-import { mapMutations } from "vuex";
+import { mapMutations, mapActions,mapState } from "vuex";
 export default {
   name: "signIn",
   data() {
@@ -38,6 +38,14 @@ export default {
       username: "",
       password: ""
     };
+  },
+  mounted() {
+    document.title=this.meta[this.$route.name];
+  },
+  computed:{
+    ...mapState([
+            "meta"
+    ])
   },
   methods: {
     submit() {
@@ -52,11 +60,8 @@ export default {
           if (res.data.code !== 0) {
             _self.$alert(res.data.message, "登陆失败");
           } else {
-            _self.setUser({
-              username: res.data.result.username,
-              id: res.data.result.id
-            });
-            _self.initMeta(res.data.result.username);
+            _self.initState(res.data.result);
+            _self.initMusicList();
             _self.$router.push({ path: "/" });
           }
         })
@@ -64,7 +69,8 @@ export default {
           console.log(err);
         });
     },
-    ...mapMutations(["setUser", "initMeta"])
+    ...mapMutations(["initState"]),
+    ...mapActions(["initMusicList"])
   }
 };
 </script>
@@ -78,5 +84,8 @@ export default {
 }
 .item {
   margin-top: 20px;
+}
+.card {
+  min-width: 200px;
 }
 </style>
