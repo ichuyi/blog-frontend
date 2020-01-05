@@ -40,7 +40,7 @@ export default {
   methods: {
     jumpToEdit() {
       this.$router.push({ path: "/editBlog" });
-    },
+    }
   },
   activated() {
     document.title = this.meta[this.$route.name];

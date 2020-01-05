@@ -7,8 +7,8 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import Vuex from "vuex";
 import store from "./store";
-import ViewUI from 'view-design';
-import 'view-design/dist/styles/iview.css';
+import ViewUI from "view-design";
+import "view-design/dist/styles/iview.css";
 Vue.config.productionTip = false;
 
 Vue.use(ElementUI);

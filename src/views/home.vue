@@ -23,13 +23,16 @@
           <el-menu-item index="/home/todo">待办列表</el-menu-item>
           <el-menu-item index="/home/editBlog">新建/编辑</el-menu-item>
           <el-menu-item index="/home/album">我的相册</el-menu-item>
-          <el-menu-item index="/home/music">云音乐</el-menu-item>
+          <el-menu-item index="/home/music" v-if="$store.state.music.login"
+            >云音乐</el-menu-item
+          >
+          <el-menu-item index="/home/myinfo">个人信息</el-menu-item>
         </el-menu>
-          <transition name="el-zoom-in-center">
-            <keep-alive>
-              <router-view/>
-            </keep-alive>
-          </transition>
+        <transition name="el-zoom-in-center">
+          <keep-alive>
+            <router-view />
+          </keep-alive>
+        </transition>
       </el-col>
     </el-row>
   </div>

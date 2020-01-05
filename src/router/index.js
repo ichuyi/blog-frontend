@@ -8,24 +8,25 @@ import BlogEdit from "../components/blog-edit";
 import Album from "../components/album";
 import BlogDetail from "../views/blogDetail";
 import Music from "../components/music";
+import Myyinfo from "../components/myinfo";
 Vue.use(Router);
 
 export default new Router({
   mode: "history",
   routes: [
     {
-      path:"/",
-      redirect:"/home",
+      path: "/",
+      redirect: "/home"
     },
     {
       path: "/login",
       name: "signIn",
-      component: SignIn,
+      component: SignIn
     },
     {
       path: "/blogDetail",
       name: "blogDetail",
-      component: BlogDetail,
+      component: BlogDetail
     },
     {
       path: "/home",
@@ -58,8 +59,13 @@ export default new Router({
           path: "music",
           name: "music",
           component: Music
+        },
+        {
+          path: "myinfo",
+          name: "myinfo",
+          component: Myyinfo
         }
       ]
-    },
+    }
   ]
 });

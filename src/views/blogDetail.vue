@@ -34,12 +34,12 @@ import http from "../util/http";
 const converter = new showdown.Converter();
 export default {
   name: "blogDetail",
-  data(){
-    return{
-      blog:{
-        title:""
+  data() {
+    return {
+      blog: {
+        title: ""
       }
-    }
+    };
   },
   methods: {
     getType(index) {
@@ -51,29 +51,32 @@ export default {
     document.title = this.meta[this.$route.name];
   },
   mounted() {
-    let _self=this;
+    let _self = this;
     document.title = _self.meta[_self.$route.name];
-    let id=_self.$route.query.id;
-    http.fetchGet("/post/get",{id:id}).then(function (result) {
-      if(result.data.code!==0){
-        _self.$message({
-          message:result.data.message,
-          type:"error",
-          showClose: true,
-          center: true,
-          offset: 200
-        })
-      }else{
-        _self.blog=result.data.result;
-      }
-    }).catch(function (err) {
-      console.log(err)
-    })
+    let id = _self.$route.query.id;
+    http
+      .fetchGet("/post/get", { id: id })
+      .then(function(result) {
+        if (result.data.code !== 0) {
+          _self.$message({
+            message: result.data.message,
+            type: "error",
+            showClose: true,
+            center: true,
+            offset: 200
+          });
+        } else {
+          _self.blog = result.data.result;
+        }
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
   },
   computed: {
     ...mapState(["meta"]),
-    contentHtml(){
-      return converter.makeHtml(this.blog.content)
+    contentHtml() {
+      return converter.makeHtml(this.blog.content);
     }
   }
 };

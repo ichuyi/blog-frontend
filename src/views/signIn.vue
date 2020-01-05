@@ -1,11 +1,16 @@
 <template>
   <div id="signIn">
     <el-row>
-      <el-col :span="4" :offset="10">
+      <el-col :span="6" :offset="9">
         <el-card shadow="hover" class="card">
+          <div class="head">欢迎登录！</div>
           <el-form size="small">
             <el-form-item class="item">
-              <el-input v-model="username" placeholder="请输入账号" />
+              <el-input
+                v-model="username"
+                placeholder="请输入账号"
+                prefix-icon="el-icon-user-solid"
+              />
             </el-form-item>
             <el-form-item class="item">
               <el-input
@@ -13,6 +18,7 @@
                 type="password"
                 show-password
                 placeholder="请输入密码"
+                prefix-icon="el-icon-key"
               />
             </el-form-item>
             <el-form-item class="item">
@@ -30,7 +36,7 @@
 <script>
 import http from "../util/http";
 import encrypt from "../util/encrypt";
-import { mapMutations, mapActions,mapState } from "vuex";
+import { mapMutations, mapActions, mapState } from "vuex";
 export default {
   name: "signIn",
   data() {
@@ -40,12 +46,13 @@ export default {
     };
   },
   mounted() {
-    document.title=this.meta[this.$route.name];
+    document.title = "欢迎登录";
   },
-  computed:{
-    ...mapState([
-            "meta"
-    ])
+  activated() {
+    document.title = "欢迎登录";
+  },
+  computed: {
+    ...mapState(["meta"])
   },
   methods: {
     submit() {
@@ -60,8 +67,7 @@ export default {
           if (res.data.code !== 0) {
             _self.$alert(res.data.message, "登陆失败");
           } else {
-            _self.initState(res.data.result);
-            _self.initMusicList();
+            _self.init(res.data.result);
             _self.$router.push({ path: "/" });
           }
         })
@@ -69,8 +75,7 @@ export default {
           console.log(err);
         });
     },
-    ...mapMutations(["initState"]),
-    ...mapActions(["initMusicList"])
+    ...mapActions(["init"])
   }
 };
 </script>
@@ -83,9 +88,13 @@ export default {
   width: 100%;
 }
 .item {
-  margin-top: 20px;
+  margin-top: 40px;
 }
 .card {
   min-width: 200px;
+}
+.head {
+  font-size: 16px;
+  text-align: left;
 }
 </style>

@@ -47,7 +47,7 @@ export default {
         name: "blogDetail",
         value: _self.user.username + "--" + _self.blog.title
       });
-      window.open("/blogDetail?id="+_self.blog.id, "_blank");
+      window.open("/blogDetail?id=" + _self.blog.id, "_blank");
     },
     ...mapMutations(["setBlog", "setMeta"])
   }
