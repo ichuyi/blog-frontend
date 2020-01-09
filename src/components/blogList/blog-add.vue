@@ -19,7 +19,7 @@ export default {
 #blog-add {
   width: 300px;
   height: 40px;
-  padding: 150px 0;
+  padding: 170px 0;
 }
 i {
   font-size: 40px;
