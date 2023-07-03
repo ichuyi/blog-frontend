@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: "/",
     proxyTable: {
       "/api": {
-        target: "http://localhost:12345/api", //设置你调用的接口域名和端口号 别忘了加http、https
+        target: "https://studygroup.vip/api", //设置你调用的接口域名和端口号 别忘了加http、https
         changeOrigin: true, //是否跨域
         secure: true, // 允许https请求
         pathRewrite: {
@@ -19,7 +19,7 @@ module.exports = {
         }
       },
       "/netease": {
-        target: "http://182.92.199.228/netease", //设置你调用的接口域名和端口号 别忘了加http、https
+        target: "https://studygroup.vip/netease", //设置你调用的接口域名和端口号 别忘了加http、https
         changeOrigin: true, //是否跨域
         secure: true, // 允许https请求
         pathRewrite: {
@@ -29,7 +29,7 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    host: "localhost", // can be overwritten by process.env.HOST
+    host: "0.0.0.0", // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

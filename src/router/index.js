@@ -8,6 +8,7 @@ import BlogEdit from "../components/blog-edit";
 import Album from "../components/album";
 import BlogDetail from "../views/blogDetail";
 import Music from "../components/music";
+import MusicLogin from "../components/music_login";
 import Myyinfo from "../components/myinfo";
 Vue.use(Router);
 
@@ -59,6 +60,11 @@ export default new Router({
           path: "music",
           name: "music",
           component: Music
+        },
+        {
+          path: "music_login",
+          name: "music_login",
+          component: MusicLogin
         },
         {
           path: "myinfo",

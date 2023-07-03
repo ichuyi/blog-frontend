@@ -28,10 +28,10 @@ const store = new Vuex.Store({
         signIn: "欢迎登录",
         blogDetail: "--",
         music: user.username + "--我的云音乐",
-        myinfo: user.username + "--个人中心"
+        myinfo: user.username + "--个人中心",
+        music_login: user.username + "--网易云音乐登录"
       };
       state.music = {
-        audio: new Audio(),
         musicList: {
           recommendSongs: []
         },
@@ -44,19 +44,19 @@ const store = new Vuex.Store({
           currentTime: 0
         }
       };
-      state.music.audio.addEventListener("playing", function() {
+      state.music.audio.addEventListener("playing", function () {
         state.music.playStatus.isPlay = true;
       });
-      state.music.audio.addEventListener("pause", function() {
+      state.music.audio.addEventListener("pause", function () {
         state.music.playStatus.isPlay = false;
       });
-      state.music.audio.addEventListener("ended", function() {
+      state.music.audio.addEventListener("ended", function () {
         state.music.playStatus.isPlay = false;
         state.music.audio.src =
           "https://music.163.com/song/media/outer/url?id=" +
           state.music.musicList[state.music.type][
             (state.music.playStatus.currentIndex + 1) %
-              state.music.musicList[state.music.type].length
+            state.music.musicList[state.music.type].length
           ].id +
           ".mp3";
         state.music.audio.load();
@@ -65,14 +65,14 @@ const store = new Vuex.Store({
         state.music.playStatus.currentIndex =
           (state.music.playStatus.currentIndex + 1) %
           state.music.musicList[state.music.type].length;
-        state.music.audio.play().catch(function(err) {
+        state.music.audio.play().catch(function (err) {
           console.log(err);
         });
       });
-      state.music.audio.addEventListener("loadedmetadata", function() {
+      state.music.audio.addEventListener("loadedmetadata", function () {
         state.music.playStatus.duration = state.music.audio.duration;
       });
-      state.music.audio.addEventListener("timeupdate", function() {
+      state.music.audio.addEventListener("timeupdate", function () {
         state.music.playStatus.currentTime = state.music.audio.currentTime;
       });
     },
@@ -89,31 +89,34 @@ const store = new Vuex.Store({
   actions: {
     init({ state, commit }, user) {
       commit("initState", user);
-      if (user.netease_phone !== "") {
-        netease
-          .neteasePost("/login/cellphone", {
-            phone: user.netease_phone,
-            password: user.netease_password
-          })
-          .then(function(result) {
-            if (result.data.code === 200) {
-              netease
-                .neteasePost(
-                  "/recommend/songs?timestamp=" + new Date().getTime()
-                )
-                .then(function(res) {
-                  commit("setMusicList", res.data.recommend);
-                  commit("setNeteaseLogin");
-                })
-                .catch(function(err) {
-                  console.log(err);
-                });
-            }
-          })
-          .catch(function(err) {
-            console.log(err);
-          });
-      }
+      // if (user.netease_phone !== "") {
+      //   netease
+      //     .neteasePost("/login/cellphone", {
+      //       phone: user.netease_phone,
+      //       password: user.netease_password
+      //     })
+      //     .then(function (result) {
+      //       if (result.data.code === 200) {
+      //         netease
+      //           .neteasePost(
+      //             "/recommend/songs?timestamp=" + new Date().getTime()
+      //           )
+      //           .then(function (res) {
+      //             commit("setMusicList", res.data.recommend);
+      //             commit("setNeteaseLogin");
+      //           })
+      //           .catch(function (err) {
+      //             console.log(err);
+      //           });
+      //       }
+      //     })
+      //     .catch(function (err) {
+      //       console.log(err);
+      //     });
+      // }
+    },
+    musicLogin({ state, commit }) {
+      commit("setNeteaseLogin")
     }
   },
   plugins: [vuexAlong()]

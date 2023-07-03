@@ -6,25 +6,13 @@
           <div class="head">欢迎登录！</div>
           <el-form size="small">
             <el-form-item class="item">
-              <el-input
-                v-model="username"
-                placeholder="请输入账号"
-                prefix-icon="el-icon-user-solid"
-              />
+              <el-input v-model="username" placeholder="请输入账号" prefix-icon="el-icon-user-solid" />
             </el-form-item>
             <el-form-item class="item">
-              <el-input
-                v-model="password"
-                type="password"
-                show-password
-                placeholder="请输入密码"
-                prefix-icon="el-icon-key"
-              />
+              <el-input v-model="password" type="password" show-password placeholder="请输入密码" prefix-icon="el-icon-key" />
             </el-form-item>
             <el-form-item class="item">
-              <el-button type="primary" class="button" @click="submit"
-                >登录</el-button
-              >
+              <el-button type="primary" class="button" @click="submit">登录</el-button>
             </el-form-item>
           </el-form>
         </el-card>
@@ -36,7 +24,7 @@
 <script>
 import http from "../util/http";
 import encrypt from "../util/encrypt";
-import { mapMutations, mapActions, mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   name: "signIn",
   data() {
@@ -63,7 +51,7 @@ export default {
           username: _self.username,
           password: encryptPassword
         })
-        .then(function(res) {
+        .then(function (res) {
           if (res.data.code !== 0) {
             _self.$alert(res.data.message, "登陆失败");
           } else {
@@ -71,7 +59,7 @@ export default {
             _self.$router.push({ path: "/" });
           }
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log(err);
         });
     },
@@ -84,15 +72,19 @@ export default {
 #signIn {
   padding: 20% 0;
 }
+
 .button {
   width: 100%;
 }
+
 .item {
   margin-top: 40px;
 }
+
 .card {
   min-width: 200px;
 }
+
 .head {
   font-size: 16px;
   text-align: left;

@@ -38,7 +38,8 @@ netease.interceptors.response.use(
 );
 
 //返回一个Promise(发送post请求)
-export function neteasePost(url, params) {
+export function neteasePost(url, params = {}) {
+  params["cookie"] = localStorage.getItem("cookie")
   return new Promise((resolve, reject) => {
     netease
       .post(url, params)
@@ -56,7 +57,8 @@ export function neteasePost(url, params) {
   });
 }
 ////返回一个Promise(发送get请求)
-export function neteaseGet(url, param) {
+export function neteaseGet(url, param = {}) {
+  param["cookie"] = localStorage.getItem("cookie")
   return new Promise((resolve, reject) => {
     netease
       .get(url, { params: param })

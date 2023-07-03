@@ -1,18 +1,8 @@
 <template>
-  <el-card
-    id="blog-list"
-    v-loading="loading"
-    element-loading-text="拼命加载中"
-    element-loading-spinner="el-icon-loading"
-    element-loading-background="transparent"
-  >
+  <el-card id="blog-list" v-loading="loading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading"
+    element-loading-background="transparent">
     <blog-add class="blog-card" @addPost="jumpToEdit" />
-    <blog-card
-      v-for="(blog, index) in blogList"
-      :key="index"
-      :blog="blog"
-      class="blog-card"
-    />
+    <blog-card v-for="(blog, index) in blogList" :key="index" :blog="blog" class="blog-card" />
   </el-card>
 </template>
 
@@ -39,7 +29,7 @@ export default {
   },
   methods: {
     jumpToEdit() {
-      this.$router.push({ path: "/editBlog" });
+      this.$router.push({ path: "/home/editBlog" });
     }
   },
   activated() {
@@ -50,7 +40,7 @@ export default {
     document.title = this.meta[this.$route.name];
     http
       .fetchPost("/post/list")
-      .then(function(res) {
+      .then(function (res) {
         if (res.data.code !== 0) {
           _self.$message({
             message: "获取博客失败",
@@ -63,10 +53,10 @@ export default {
           _self.blogList = res.data.result;
         }
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.log(err);
       })
-      .finally(function() {
+      .finally(function () {
         _self.loading = false;
       });
   }
